@@ -6,22 +6,20 @@
     </div>
     <Footer/>
   </div>
-</template>
+</template>s
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+<script>
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
 
-@Component({
+export default {
   components: {
     Header,
     Footer,
-  },
-})
-export default class Home extends Vue {
+  }
 }
 </script>
+
 
 <style lang="scss">
 @import "~bootstrap/scss/bootstrap";

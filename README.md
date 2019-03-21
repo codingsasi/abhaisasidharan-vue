@@ -1,4 +1,4 @@
-# abhaisasidharan
+# abhaisasidharan-js
 
 ## Project setup
 ```

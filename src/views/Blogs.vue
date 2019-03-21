@@ -1,22 +1,20 @@
 <template>
-  <section style="min-height:50em" class="col-md-8 mt-2">
-    <div class="blog--full">
+  <section style="min-height:50em" class="col-md-8">
+    <div class="blog--timeline">
       <article v-for="(blog, index) in blogs" :key="index">
-        <div class="blog-full--image row pt-5 pb-3">
+        <div class="blog-thumbnail--image row pt-5 pb-3 mt-2">
           <Relationship :link="blog.thumbnail" styles="width:100%; height: 60%" classes="rounded img-fluid" type="image" />
         </div>
-        <div class="blog-full--title row pb-3">
-          <h4><a :href="/blog/ + blog.id">{{ blog.title }}</a></h4>
+        <div class="blog-thumbnail--title row">
+          <h4><router-link :to="/blog/ + blog.id">{{ blog.title }}</router-link></h4>
+          <p>{{ blog.summary }}</p>
         </div>
-        <div class="blog-full--created row pb-3">
-          <div>
-            <span><i class="fa fa-calendar"></i> {{ blog.created }} </span>
-            <br>
-          </div>
+        <div class="blog-thumbnail--created row">
+        <div>
+          <span><i class="fa fa-calendar"></i> {{ blog.created }} </span><br>
         </div>
-        <div class="blog-full--body row py-3">
-          <div v-html="blog.body" style="width: 100%;"></div>
-        </div>
+      </div>
+      <hr>
       </article>
     </div>
   </section>
@@ -26,7 +24,7 @@
 import Relationship from '@/components/Relationship.vue';
 
 export default {
-  name: 'blog',
+  name: 'blogs',
   components: {
     Relationship
   },
@@ -36,18 +34,17 @@ export default {
       isLoaded: false,
       error: '',
       blogs: [],
-      nid: null,
+      id: null,
     }
   },
 
   mounted() {
-    this.nid = this.$route.params.id;
-    fetch('https://www.abhaisasidharan.xyz/api/node/blog/' + this.nid)
+    fetch('https://www.abhaisasidharan.xyz/api/node/blog?sort=-created')
       .then(res => res.json())
       .then(
         (result) => {
           this.isLoaded = true;
-          this.blogs = this.blogStructure([result.data]);
+          this.blogs = this.blogStructure(result.data);
         },
         (error) => {
           this.isLoaded = true;

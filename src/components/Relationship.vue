@@ -1,39 +1,48 @@
 <template>
-  <Image :src="'https://www.abhaisasidharna.xyz/' +  src" :class="classes"/>
+  <Imag :source="source" :classes="classes" :styles="styles" />
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
-import { Component, Prop, Emit } from 'vue-property-decorator';
+<script>
+import Imag from '@/components/Imag.vue';
 
-@Component({
+export default {
+  name: 'relationship',
   components: {
+    Imag
   },
-})
-export default class Relationship extends Vue {
+
   data() {
     return {
-      isLoaded: false,
-      error: '',
-      relationships: [],
-      id: false,
+      source: null
     }
-  }
+  },
+
+  props: {
+    link: String,
+    styles: String,
+    classes: String,
+    type: String,
+    nid: null
+  },
 
   mounted() {
-    fetch(`https://www.abhaisasidharan.xyz/api/file/file/${id}`)
+    fetch(this.$props.link)
       .then(res => res.json())
       .then(
         (result) => {
           this.isLoaded = true;
-          this.relationships: result.data;
+          if (this.$props.type == 'image') {
+            this.source = 'https://www.abhaisasidharan.xyz' + result.data.attributes.uri.url;
+            this.classes = this.$props.classes;
+            this.styles = this.$props.styles;
+          }
         },
         (error) => {
-          this.isLoaded: true;
+          this.isLoaded = true;
           this.error = error;
         }
       )
-  }
+  },
 
-} 
+}
 </script>
